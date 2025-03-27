@@ -1,0 +1,27 @@
+<h2>Support Dashboard</h2>
+<table>
+    <tr>
+        <th>Request Type</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </tr>
+    {% for req in requests %}
+    <tr>
+        <td>{{ req.request_type }}</td>
+        <td>{{ req.status }}</td>
+        <td>{{ req.created_at }}</td>
+        <td>
+            <form method="POST" action="{% url 'update_request_status' req.id %}">
+                {% csrf_token %}
+                <select name="status">
+                    {% for status, label in req.STATUS_CHOICES %}
+                    <option value="{{ status }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
